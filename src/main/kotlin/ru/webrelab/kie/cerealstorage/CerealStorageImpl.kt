@@ -15,10 +15,11 @@ class CerealStorageImpl(
         }
     }
 
-    val mainStorage = mutableMapOf<Cereal, Float>()
+    private val mainStorage = mutableMapOf<Cereal, Float>()
     private val maxContainersCount = (storageCapacity / containerCapacity).toInt()
     private var currentContainersCount = 0
 
+    fun getStorage() = mainStorage
 
     override fun addCereal(cereal: Cereal, amount: Float): Float {
         require(amount >= 0) { "Amount value can not be negative" }
@@ -46,7 +47,7 @@ class CerealStorageImpl(
         val currentContainerState = mainStorage.getOrDefault(cereal, 0f)
         if (amount > currentContainerState) {
             mainStorage[cereal] = 0f
-            return amount - currentContainerState
+            return currentContainerState
         }
         mainStorage[cereal] = currentContainerState - amount
         return amount
